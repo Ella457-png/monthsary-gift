@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>For You ♡</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#f6a4a8}
+body{display:grid;place-items:center;font-family:Georgia,"Times New Roman",serif;overflow-x:hidden}
+#book{width:min(100vw,177.78vh);aspect-ratio:16/9;position:relative;overflow:hidden;background:#f6a4a8}
+.page{position:absolute;inset:0;opacity:0;pointer-events:none;transform:translateX(2%);transition:opacity .45s ease,transform .45s ease}
+.page.active{opacity:1;pointer-events:auto;transform:translateX(0)}
+.page img{width:100%;height:100%;display:block;object-fit:cover}
+.hotspot{position:absolute;border:0;background:transparent;cursor:pointer;border-radius:999px}
+.hotspot:focus-visible{outline:3px solid white;outline-offset:3px}
+.h1{left:36%;top:72%;width:28%;height:18%}
+.h2{left:78%;top:27%;width:20%;height:18%}
+.h3{left:44%;top:62%;width:30%;height:24%}
+.h4{left:78%;top:10%;width:20%;height:22%}
+.h5{left:78%;top:8%;width:20%;height:24%}
+@media (prefers-reduced-motion:reduce){.page{transition:none}}
+</style>
+</head>
+<body>
+<main id="book" aria-label="Interactive monthsary letter">
+  <section class="page active" data-page="1"><img src="page1.jpg" alt="Opening page of the letter"><button class="hotspot h1" data-next="2" aria-label="Open the letter"></button></section>
+  <section class="page" data-page="2"><img src="page2.jpg" alt="Monthsary letter page"><button class="hotspot h2" data-next="3" aria-label="Next page"></button></section>
+  <section class="page" data-page="3"><img src="page3.jpg" alt="Memories introduction page"><button class="hotspot h3" data-next="4" aria-label="Open memories"></button></section>
+  <section class="page" data-page="4"><img src="page4.jpg" alt="Memories page"><button class="hotspot h4" data-next="5" aria-label="Next page"></button></section>
+  <section class="page" data-page="5"><img src="page5.jpg" alt="More memories page"><button class="hotspot h5" data-next="6" aria-label="Next page"></button></section>
+  <section class="page" data-page="6"><img src="page6.jpg" alt="Closing page of the letter"></section>
+</main>
+<script>
+const pages=[...document.querySelectorAll(".page")];
+document.querySelectorAll("[data-next]").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const n=Number(btn.dataset.next);
+    pages.forEach(p=>p.classList.toggle("active",Number(p.dataset.page)===n));
+  });
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="ArrowRight"){
+    const cur=document.querySelector(".page.active");
+    const n=Number(cur.dataset.page)+1;
+    if(n<=pages.length) pages.forEach(p=>p.classList.toggle("active",Number(p.dataset.page)===n));
+  }
+  if(e.key==="ArrowLeft"){
+    const cur=document.querySelector(".page.active");
+    const n=Number(cur.dataset.page)-1;
+    if(n>=1) pages.forEach(p=>p.classList.toggle("active",Number(p.dataset.page)===n));
+  }
+});
+</script>
+</body>
+</html>
